@@ -2,6 +2,8 @@
 
 A front-end marketplace and directory for Egypt's furniture industry. Mobilyati connects designers, producers, suppliers, retailers, educational institutions and students in one platform, and adds business tooling on top: a professionals directory, job postings, industry insights and a social industry feed.
 
+**Live demo:** https://omar-gamal5.github.io/egypt-furniture-platform/
+
 > **Demo project / front-end only.** There is no backend: users, profiles, jobs, events and publications are mock data, and authentication is simulated in `localStorage`. See [Notes & limitations](#notes--limitations).
 
 ![Home page](docs/screenshots/home.jpeg)
@@ -82,6 +84,16 @@ Password: demo1234
 ```
 
 The signed-in user is stored under the `furniture_hub_user` key in `localStorage`; remove it (or use Log Out) to reset.
+
+## Deployment
+
+Deployed with **GitHub Pages** using `.github/workflows/deploy.yml`. Every push to `main` runs `npm ci` → `npm run build`, then publishes `dist/` via `actions/deploy-pages@v4`. Pages is configured with **GitHub Actions** as the deployment source in the repository settings.
+
+Two details make the SPA work on Pages:
+- `vite.config.ts` builds with `base: /egypt-furniture-platform/`, and `BrowserRouter` uses `basename={import.meta.env.BASE_URL}` so routes resolve under the repository sub-path.
+- `404.html` is a second Vite entry. GitHub Pages serves it for unknown paths, so direct links such as `/explore` still boot the app and client-side routing takes over. `public/.nojekyll` keeps Pages from ignoring generated files.
+
+To deploy your own copy, fork the repo, rename `REPO_NAME` in `vite.config.ts` to your repository name, push to `main`, and select **GitHub Actions** as the Pages source.
 
 ## Project structure
 
